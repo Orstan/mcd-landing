@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>McD Token - Cryptocurrency for McDonald's Discounts</title>
+  
+  <!-- SEO Мета-теги -->
+  <meta name="description" content="McD Token - Cryptocurrency token that provides discounts on McDonald's menu. Connect your wallet and buy tokens to get permanent discounts of 2-90% on all purchases." />
+  <meta name="keywords" content="McD Token, McDonald's, cryptocurrency, discounts, blockchain, ethereum, polygon, binance smart chain" />
+  <meta name="author" content="McD Token Team" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mcdtoken.com/" />
+  <meta property="og:title" content="McD Token - Cryptocurrency for McDonald's Discounts" />
+  <meta property="og:description" content="McD Token provides discounts of 2-90% on McDonald's menu. Connect your wallet, buy tokens, and enjoy permanent discounts." />
+  <meta property="og:image" content="https://mcdtoken.com/assets/images/webp/coin-mcd.webp" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://mcdtoken.com/" />
+  <meta property="twitter:title" content="McD Token - Cryptocurrency for McDonald's Discounts" />
+  <meta property="twitter:description" content="McD Token provides discounts of 2-90% on McDonald's menu. Connect your wallet, buy tokens, and enjoy permanent discounts." />
+  <meta property="twitter:image" content="https://mcdtoken.com/assets/images/webp/coin-mcd.webp" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://mcdtoken.com/" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=1.1" />
+  <link rel="stylesheet" href="assets/css/buy-widget.css?v=1.1" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
+  <link rel="icon" href="assets/images/original/favicon-128x128.png" sizes="128x128" type="image/png">
+  
+  <!-- Contract settings -->
+  <script src="assets/js/components/contract-addresses.js"></script>
+  
+  <!-- Web3 components -->
+  <script src="assets/js/components/wallet.js"></script>
+  <script src="assets/js/components/contracts.js"></script>
+  <script src="assets/js/components/tokenInfo.js"></script>
+  <script src="assets/js/components/purchase.js"></script>
+  <script src="assets/js/main.js"></script>
+  
+  <!-- WebP Image loader -->
+  <script src="assets/js/image-map.js"></script>
+</head>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const burger = document.getElementById('burger-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    const overlay = document.querySelector('.menu-overlay');
+    const links = navMenu.querySelectorAll('a');
+
+    // Открытие/закрытие по бургеру
+    burger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    // Закрытие по ссылке
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    });
+
+    // Закрытие по фону
+    overlay.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+  });
+</script>
+<body>
+  <header class="header" style="height: 55px; display: flex; align-items: center; position: fixed; top: 0; left: 0; width: 100%; background-color: #000; z-index: 1000; box-shadow: 0 0 10px #0ff;">
+    <div id="burger-menu" class="burger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+    <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 30px;">
+      <!-- Логотип слева -->
+      <img src="assets/images/original/logo.png" alt="McD Logo" style="height: 80px; width: auto;" />
+      <!-- Меню по центру -->
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#why">Why McD</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#tokenomics">Tokenomics</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#buy" id="buy-now-btn" class="btn-glow buy-now-link">Buy-Now</a></li>
+      </ul>
+      <div class="menu-overlay"></div>
+      <!-- Кнопка справа -->
+      <button id="connect-wallet" class="connect-wallet">Connect Wallet</button>
+    </div>
+  </header>
+  <!-- Модальное окно покупки удалено и заменено на встроенный виджет -->
+  <section id="home" class="hero">
+  <div class="hero-col hero-left">
+    <div class="coin-left-container">
+      <div class="rotating-coin">
+        <img src="assets/images/original/coin-mcd.png" alt="3D McD Coin" width="800" height="800" />
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-col hero-center">
+    <img src="assets/images/original/logo.png" alt="Hero Logo" class="hero-logo" />
+    <h1 class="glow-text">Welcome to McD</h1>
+    <p class="tagline">The token for profitable purchases at McDonald's</p>
+
+    <div class="sale-status-box">
+      <!-- здесь ваш sale-header, progress, price-info и audit-info -->
+      <div class="sale-header">
+        <div class="sale-amounts">
+          <strong>$107</strong>
+          <span class="goal-amount">/ $5 000</span>
+        </div>
+        <div class="stage-wrapper">
+          <span class="stage">Stage 1/10</span>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <div class="price-info">
+        <div>Current Price: <strong>$0.0001</strong></div>
+        <div>Next: <strong>$0.003108</strong></div>
+      </div>
+      <div class="audit-info">
+        Audited by:
+        <img src="assets/images/original/pessimistic.png" alt="Pessimistic" width="300" height="100" />
+        <img src="assets/images/original/solidproof.png" alt="SolidProof" width="300" height="100" />
+      </div>
+    </div>
+  </div>
+
+  <div id="buy" class="hero-col hero-right">
+    <div class="swap-widget-container">
+      <div class="buy-widget">
+        <div class="buy-widget-header">
+          <h3>Buy McD Token</h3>
+          <div class="network-selector">
+            <span>Network:</span>
+            <div class="network-buttons">
+              <button class="network-switch" data-network="polygon">Polygon</button>
+              <button class="network-switch" data-network="ethereum">Ethereum</button>
+              <button class="network-switch" data-network="binance">BSC</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="buy-widget-body">
+          <div class="field-container">
+            <label for="currency-select">Select Currency</label>
+            <select id="currency-select" class="currency-select">
+              <!-- Опции будут добавлены динамически в JS -->
+            </select>
+          </div>
+          
+          <div class="field-container">
+            <label for="currency-amount">Amount</label>
+            <input type="number" id="currency-amount" class="currency-amount" placeholder="0.0" min="0" step="any" />
+          </div>
+          
+          <div class="field-container token-amount-container">
+            <div class="token-amount-label">You'll receive:</div>
+            <div class="token-amount-value"><span id="token-amount" class="token-amount">0</span> <span>McD</span></div>
+          </div>
+          
+          <div class="action-container" style="display: flex; justify-content: center; width: 100%;">
+            <button id="buy-tokens" class="buy-button" style="display: block; margin: 0 auto; text-align: center;">BUY MCD TOKENS</button>
+          </div>
+        </div>
+        
+        <div class="buy-widget-footer">
+          <div class="wallet-info">
+            <div class="wallet-status" id="wallet-status">
+              <span class="wallet-status-label">Wallet:</span>
+              <span class="wallet-status-value">Not connected</span>
+            </div>
+            <div class="balance-info" id="balance-info">
+              <span class="balance-info-label">Balance:</span>
+              <span class="balance-info-value"><span class="mcd-balance">0</span> McD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <main class="container main-content">
+    <section id="discounts" class="section" style="text-align: center;">
+      <img src="assets/images/original/discounts-illustration.png" alt="Discount Section Visual" class="full-discount-image" width="1200" height="800" />
+    </section>
+    <section id="about" class="section neon-box">
+      <div class="about-grid">
+        <div class="about-left">
+          <img src="assets/images/original/about-info-card.png" alt="McD Icon Card" class="about-full-card" width="600" height="800" />
+        </div>
+        <div class="about-right">
+          <p>
+            McD is a cryptocurrency token that provides exclusive discounts on the entire McDonald's menu.
+
+            <p>All you need to do is verify your wallet and pay for your orders using McD tokens — and you’ll receive a permanent discount based on the amount of tokens in your balance.
+
+              <p>✅ Important: The discount is activated only when paying with McD tokens from a verified wallet.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacer div for mobile separation -->
+    <div style="height: 3rem; width: 100%; display: block;"></div>
+
+    <!-- Updated WHY McD section in index.html (English version) -->
+<section id="why" class="section why-mcd" style="margin-top: 3rem;">
+  <h2>Why McD?</h2>
+  <p class="subtitle">Get instant discounts and be part of pioneering new technologies.</p>
+
+  <div class="cards">
+    <!-- Card 1: Super Discounts -->
+    <div class="card">
+      <div class="icon">🏷️</div>
+      <h3>Super Discounts</h3>
+      <p>2–90% on small or large purchases with McD tokens.</p>
+      <div class="progress">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width: 2%;"></div>
+        </div>
+        <div class="progress-label">$100 → 2%</div>
+      </div>
+    </div>
+
+    <!-- Card 2: Convenient Payment -->
+    <div class="card">
+      <div class="icon">💳</div>
+      <h3>Convenient Payment</h3>
+      <p>Wallets, mobile apps, and terminals — all in one place.</p>
+    </div>
+
+    <!-- Card 3: Financial Growth -->
+    <div class="card">
+      <div class="icon">📈</div>
+      <h3>Financial Growth</h3>
+      <p>Token growth potential and blockchain security.</p>
+    </div>
+  </div>
+
+  <div class="cta-container" style="text-align: center; margin: 1.5rem auto;">
+    <a href="#buy" class="btn-primary buy-now-link" style="display: inline-block; width: 220px; max-width: 90%; text-align: center; margin: 0 auto;">Buy McD Tokens</a>
+  </div>
+</section>
+
+    <!-- Spacer div for mobile separation before roadmap -->
+    <div style="height: 2rem; width: 100%; display: block;"></div>
+    
+    <section id="roadmap" class="section roadmap" style="margin-top: 2rem;">
+  <h2>McD Roadmap</h2>
+  <div class="timeline">
+    <!-- Milestone 1 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q2 2025</h3>
+        <p>Launch of McD tokens &amp; initial marketing campaign. Establish partnerships with payment platforms for widespread acceptance.</p>
+      </div>
+    </div>
+
+    <!-- Milestone 2 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q3 2025</h3>
+        <p>Rollout of exclusive promotions and discounts for token holders. Launch a user-friendly mobile app for managing tokens.</p>
+      </div>
+    </div>
+
+    <!-- Milestone 3 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q4 2025</h3>
+        <p>Expansion of McD token use in select regions, including collaborations with other restaurants and businesses.</p>
+      </div>
+    </div>
+
+    <!-- Milestone 4 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q1 2026</h3>
+        <p>Feedback collection and UX improvements. Introduce loyalty rewards for long-term token holders.</p>
+      </div>
+    </div>
+
+    <!-- Milestone 5 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q2 2026</h3>
+        <p>Additional mobile-app features: real-time token value &amp; transactions updates.</p>
+      </div>
+    </div>
+
+    <!-- Milestone 6 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q3 2026</h3>
+        <p>Explore integrations of McD tokens into a broader ecosystem, allowing interchange with other cryptocurrencies.</p>
+      </div>
+    </div>
+
+    <!-- Milestone 7 -->
+    <div class="milestone">
+      <div class="marker"></div>
+      <div class="card">
+        <h3>Q4 2026</h3>
+        <p>Comprehensive review of performance, engagement, and market growth with plans for future improvements.</p>
+      </div>
+    </div>
+  </div>
+  <p class="footer-note">Our roadmap highlights our commitment to innovation, user satisfaction, and community engagement.</p>
+</section>
+
+    <section id="tokenomics" class="section tokenomics">
+  <h2>Tokenomics</h2>
+  <!-- Стилизация контракта как карточки -->
+  <div class="contract-card">
+    <div class="contract-info">
+      <span class="label">Contract:</span>
+      <code id="contractAddress">0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D</code>
+      <button class="copy-btn" data-target="contractAddress">Copy</button>
+    </div>
+    <a href="https://polygonscan.com/address/0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D"
+       target="_blank"
+       class="explorer-link">View on PolygonScan</a>
+  </div>
+<!-- Tokenomics Breakdown -->
+<div class="tokenomics-breakdown neon-box">
+  <h3 class="breakdown-title">Tokenomics Distribution</h3>
+  <div class="breakdown-content">
+    <!-- Legend слева -->
+    <ul class="breakdown-list">
+      <li><span class="dot presale"></span> Presale: </strong> 500 000 000 McD</li>
+      <li><span class="dot marketing"></span> Marketing: </strong> 91 300 000 McD</li>
+      <li><span class="dot airdrop"></span> Airdrops &amp; Bonuses: </strong> 60 800 000 McD</li>
+      <li><span class="dot liquidity"></span> Liquidity: </strong> 91 300 000 McD</li>
+    </ul>
+
+    <!-- Круговая диаграмма по центру -->
+    <div class="breakdown-chart">
+  <img src="assets/images/original/faq-image.png" alt="McD Coin" class="chart-center-image" width="600" height="600" />
+  <div class="total-supply">1 000 000 000</div>
+</div>
+
+    <!-- Legend справа -->
+    <ul class="breakdown-list">
+      <li><span class="dot dev"></span> Dev &amp; Ecosystem: </strong> 60 800 000 McD</li>
+      <li><span class="dot team"></span> Team: </strong> 60 800 000 McD</li>
+      <li><span class="dot kols"></span> KOLs: </strong> 30 400 000 McD</li>
+      <li><span class="dot burn"></span> Deflationary Burn: </strong> 104 300 000 McD</li>
+    </ul>
+  </div>
+</div>
+  <!-- Discounts Table (оставляем без изменений) -->
+  <div class="discounts-section">
+    <!-- Ваши неоновые блоки с таблицей тут... -->
+  </div>
+</section>
+
+
+    <section id="faq" class="section" style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 300px;">
+        <h2>FAQ</h2>
+        <div class="faq-item">
+  <div class="faq-question">What is McD?</div>
+  <div class="faq-answer">
+    <p>McD is a decentralized utility token on the Polygon network, created to give McDonald’s customers exclusive crypto-powered discounts.</p>
+    <ul>
+      <li><strong>Built on Polygon:</strong> fast, low-cost transactions.</li>
+      <li><strong>Automatic discounts:</strong> 2–90% off at checkout, based on your token balance.</li>
+      <li><strong>Verified wallets:</strong> only tokens in a verified wallet unlock savings.</li>
+    </ul>
+    <p>Key benefits include:</p>
+    <ol>
+      <li>Holding McD tokens to secure permanent menu discounts.</li>
+      <li>Seamless payment with your connected wallet.</li>
+      <li>Continuous price reduction as your balance grows.</li>
+    </ol>
+    <p>Enjoy profitable purchases every time you dine at McDonald’s!</p>
+  </div>
+</div>
+         <div class="faq-item">
+  <div class="faq-question">How to buy McD token?</div>
+  <div class="faq-answer">
+  <p>McD token operates on multiple networks—Polygon, Ethereum and Binance Smart Chain—and can be purchased directly on our official website. Supported payment assets by network:</p>
+  <ul>
+    <li><strong>Polygon:</strong> USDT, USDC, POL</li>
+    <li><strong>Ethereum:</strong> ETH, USDT, USDC</li>
+    <li><strong>Binance Smart Chain:</strong> BTC, BNB, USDT, USDC</li>
+  </ul>
+  <ol>
+    <li><strong>Open the website:</strong> click the <em>Connect Wallet</em> button in the top‑right corner.</li>
+    <li><strong>Connect your wallet:</strong> make sure it’s set to the network you chose (Polygon, Ethereum or BSC).</li>
+    <li><strong>Select a payment asset:</strong> choose one of the supported tokens on that network.</li>
+    <li><strong>Enter an amount:</strong> specify how many McD tokens you’d like to buy or how much of your payment asset you want to spend.</li>
+    <li><strong>Confirm the transaction:</strong> review the details and approve the swap in your wallet.</li>
+  </ol>
+  <p>Once confirmed, your McD tokens will appear in your wallet balance immediately.</p>
+</div>
+</div>
+        <div class="faq-item">
+  <div class="faq-question">Is McD secure?</div>
+  <div class="faq-answer">
+    <p>Security is one of our top priorities. McD token leverages multiple layers of protection on the Polygon network:</p>
+    <ul>
+      <li><strong>Audited Smart Contracts:</strong> Comprehensive audits by Pessimistic and SolidProof ensure no vulnerabilities.</li>
+      <li><strong>Renounced Ownership:</strong> Core contracts have been renounced for full decentralization—no one can alter them.</li>
+      <li><strong>Immutable &amp; Open-Source:</strong> All code is public, transparent, and immutable once deployed.</li>
+      <li><strong>Secure Blockchain:</strong> Built on Polygon, benefiting from its proven security model and rapid finality.</li>
+    </ul>
+    <p>These measures guarantee a trustless, transparent, and secure experience for every McD token holder.</p>
+  </div>
+</div>
+        <div class="faq-item">
+  <div class="faq-question">Where can I find my tokens?</div>
+  <div class="faq-answer">
+    <p>After your purchase, McD tokens are held in your connected Web3 wallet. You can view them in several ways:</p>
+    <ul>
+      <li><strong>In your wallet UI:</strong>  
+        <ul>
+          <li>MetaMask/Trust Wallet: open the wallet, switch to the Polygon network, and look under “Assets”.</li>
+          <li>Other wallets: use the “Add Custom Token” feature with our contract address <code>0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D</code>.</li>
+        </ul>
+      </li>
+      <li><strong>On a block explorer:</strong>  
+        Go to <a href="https://polygonscan.com/address/0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D" target="_blank" rel="noopener noreferrer">PolygonScan</a>, enter your address, and find McD under “Token Transfers”.</li>
+      <li><strong>In the DEX interface:</strong>  
+        If you swap again on QuickSwap or SushiSwap (Polygon), connect your wallet and McD balance will show under “Token Balance”.</li>
+    </ul>
+    <p>Use any of these methods to verify your McD token holdings at any time.</p>
+  </div>
+</div>
+        <div class="faq-item">
+  <div class="faq-question">What is the token contract address?</div>
+  <div class="faq-answer">
+    <p>The McD token contract is deployed on the Polygon network at:</p>
+    <p><code>0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D</code></p>
+    <ul>
+      <li><strong>View on PolygonScan:</strong>  
+        <a href="https://polygonscan.com/address/0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D" target="_blank" rel="noopener noreferrer">
+          polygonscan.com/address/0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D
+        </a>
+      </li>
+      <li><strong>Copy to clipboard:</strong> click the “Copy” button next to the contract address on our site or in your wallet UI.</li>
+      <li><strong>Add to your wallet:</strong> use this address as a custom token in MetaMask or any Web3 wallet.</li>
+    </ul>
+    <p>Please always double-check the contract address before interacting to avoid scams.</p>
+  </div>
+</div>
+      </div>
+      <div style="flex: 1; min-width: 400px;">
+        <div class="bouncing-coin">
+          <img src="assets/images/original/faq-image.png" alt="FAQ Illustration" width="600" height="600" />
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const questions = document.querySelectorAll('.faq-question');
+        questions.forEach(question => {
+          question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            answer.classList.toggle('open');
+            question.classList.toggle('active');
+          });
+        });
+      });
+    </script>
+  </main>
+  <footer class="custom-footer">
+    <div class="footer-columns">
+      <div class="footer-column">
+        <img src="assets/images/original/logo.png" alt="McD Logo" style="height: 40px; width: auto;" />
+        <p style="margin-top: 0.5rem; color: #aaa;">The token for profitable purchases at McDonald's</p>
+      </div>
+      <div class="footer-column">
+        <h4>Follow Us</h4>
+        <a href="https://x.com/McD_Token" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/original/x-icon.png" alt="X" class="social-icon" width="32" height="32" /> Twitter
+       </a>
+       <a href="https://www.tiktok.com/@mcdcrypto" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/original/tiktok-icon.png" alt="TikTok" class="social-icon" width="32" height="32" /> TikTok
+       </a>
+       <a href="https://t.me/McD_Token" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/original/telegram-icon.png" alt="Telegram" class="social-icon" width="32" height="32" /> Telegram
+       </a>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <a href="terms.html" target="_blank" rel="noopener" class="legal-link">Terms and Conditions</a>
+        <a href="privacy.html" target="_blank" rel="noopener" class="legal-link">Privacy Policy</a>
+        <a href="documentation.html" target="_blank" rel="noopener" class="legal-link">Documentation</a>
+      </div>
+      <div class="footer-column">
+  <h4>Company</h4>
+  <a href="mailto:mcd.token@gmail.com" class="legal-link">Feedback</a>
+     </div>
+    </div>
+  </footer>
+  <script>
+    // Addresses & ABIs
+    const saleAddress = '0x448dc21AF3FEcA110985c96A57b98f9b4AfC722D';
+    const usdtAddress = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F';  // Polygon USDT
+    const usdcAddress = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';  // Polygon USDC
+    const saleAbi = [
+      "function buyTokens() payable",
+      "function buyTokensWithToken(address token, uint256 amount)"
+    ];
+    const erc20Abi = [
+      "function approve(address spender, uint256 amount) public returns (bool)"
+    ];
+
+    // UI-элементы
+  const buyBtn         = document.getElementById('buy-now-btn');
+  const modal          = document.getElementById('buyModal');
+  const closeBtn       = document.getElementById('buyModalClose');
+  const currencySelect = document.getElementById('currency-select');
+  const amountInput    = document.getElementById('currency-amount');
+  const tokenAmount    = document.getElementById('token-amount');
+  const confirmBtn     = document.getElementById('confirm-buy');
+
+  let provider, signer, saleContract;
+
+  async function initEthers() {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send('eth_requestAccounts', []);
+    signer = provider.getSigner();
+    saleContract = new ethers.Contract(saleAddress, saleAbi, signer);
+  }
+
+  function calculateTokens(amount) {
+    const currency = currencySelect.value;
+    if (currency === 'MATIC') return amount * 2500;
+    if (currency === 'USDT')  return amount * 9600;
+    if (currency === 'USDC')  return amount * 9500;
+  }
+
+  function updateTokenEstimate() {
+    const amount = parseFloat(amountInput.value) || 0;
+    tokenAmount.innerText = calculateTokens(amount);
+  }
+
+  // Открыть модалку вместо скролла
+  buyBtn.addEventListener('click', async (e) => {
+  e.preventDefault();
+
+  // Сначала открываем модалку и считаем токены
+  updateTokenEstimate();
+  // открыть
+  modal.classList.add('show');
+
+  // А уже потом пытаемся подключиться к кошельку
+  if (!provider) {
+    try {
+      await initEthers();
+    } catch (err) {
+      console.error('Provider init failed:', err);
+      // Можно показать пользователю сообщение о необходимости открыть страницу по http://
+    }
+  }
+});
+
+  // Закрытие
+  closeBtn.addEventListener('click', () => modal.style.display = 'none');
+  window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+  // Пересчёт при вводе
+  currencySelect.addEventListener('change', updateTokenEstimate);
+  amountInput.addEventListener('input',   updateTokenEstimate);
+
+  // Подтверждение покупки
+  confirmBtn.addEventListener('click', async () => {
+    const amount = parseFloat(amountInput.value);
+    if (!amount || amount <= 0) return alert('Enter a valid amount.');
+    let tx;
+    if (currencySelect.value === 'MATIC') {
+      const value = ethers.utils.parseEther(amount.toString());
+      tx = await saleContract.buyTokens({ value });
+    } else {
+      const tokenAddr = currencySelect.value === 'USDT' ? usdtAddress : usdcAddress;
+      const tokenC   = new ethers.Contract(tokenAddr, erc20Abi, signer);
+      const parsed   = ethers.utils.parseUnits(amount.toString(), 6);
+      await tokenC.approve(saleAddress, parsed);
+      tx = await saleContract.buyTokensWithToken(tokenAddr, parsed);
+    }
+    await tx.wait();
+    alert('Purchase successful!');
+    modal.style.display = 'none';
+  });
+</script>
+<script>
+  const connectBtn = document.getElementById('connect-wallet');
+
+  connectBtn.addEventListener('click', async () => {
+    let externalProvider;
+
+    if (window.ethereum) {
+      // Injected (MetaMask, Trust browser)
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      externalProvider = window.ethereum;
+
+    } else {
+      // WalletConnect v2 — попробуем найти правильный глобал
+      const WC = window.WalletConnectProvider || window.EthereumProvider;
+      if (typeof WC?.init === 'function') {
+        const wcProvider = await WC.init({
+          projectId: '6ccb6eb6cda32768998005e9a7fb6000',
+          chains: [137],
+          showQrModal: true,
+          qrModalOptions: { mobileLinks: ['metamask', 'trust'] }
+        });
+
+        // Обязательно вызываем connect(), чтобы открылась шторка/QR
+        await wcProvider.connect();
+        externalProvider = wcProvider;
+
+      } else {
+        alert('Пожалуйста, откройте DApp в Web3-браузере или установите MetaMask/Trust');
+        return;
+      }
+    }
+
+    // Ethers wrapper
+    const provider = new ethers.providers.Web3Provider(externalProvider);
+    const signer   = provider.getSigner();
+    const address  = await signer.getAddress();
+
+    connectBtn.textContent = address.slice(0,6) + '…' + address.slice(-4);
+    connectBtn.disabled   = true;
+    window.ethProvider    = provider;
+    window.ethSigner      = signer;
+  });
+  // 1) Пороги выручки в USDT (этапы 1–10)
+const stageThresholds = [
+  0, 5000, 50000, 250000, 500000,
+  1000000, 2000000, 5000000,
+  7500000, 10000000, 15000000
+];
+const maxStage = stageThresholds.length - 1;
+
+// 2) DOM-ссылки
+const progressFill = document.getElementById('progressFill');
+const stageLabel   = document.querySelector('.sale-header .stage');
+
+// 3) Функция расчёта и обновления полосы
+function updateProgress(currentRevenue) {
+  // определяем текущий этап
+  let stage = maxStage;
+  for (let i = 0; i < maxStage; i++) {
+    if (currentRevenue >= stageThresholds[i] && currentRevenue < stageThresholds[i+1]) {
+      stage = i + 1;
+      break;
+    }
+  }
+  // внутри-этапный процент
+  const start = stageThresholds[stage - 1];
+  const end   = stageThresholds[stage];
+  const rel   = Math.min(Math.max(currentRevenue - start, 0), end - start);
+  const pct   = (rel / (end - start)) * 100;
+
+  // применяем к полосе и бейджу
+  progressFill.style.width = pct + '%';
+  stageLabel.textContent   = `Stage ${stage}/${maxStage}`;
+}
+
+// 4) Инициализация (пример)
+// вместо 107 подставьте вашу реальную переменную выручки
+updateProgress(107);
+</script>
+
+<script>
+  const buttons = document.querySelectorAll('.network-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

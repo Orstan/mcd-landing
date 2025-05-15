@@ -1,0 +1,95 @@
+# Включение движка mod_rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+# Кэширование статических файлов
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Изображения
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS, JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Шрифты
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    
+    # HTML, XML
+    ExpiresByType text/html "access plus 1 day"
+    ExpiresByType application/xml "access plus 1 day"
+</IfModule>
+
+# Сжатие GZIP
+<IfModule mod_deflate.c>
+    # Сжатие для различных типов файлов
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
+        AddOutputFilterByType DEFLATE application/javascript
+        AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
+        AddOutputFilterByType DEFLATE application/xhtml+xml application/rss+xml application/atom+xml
+        AddOutputFilterByType DEFLATE image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype
+        AddOutputFilterByType DEFLATE application/x-font-ttf font/ttf font/otf font/opentype
+    </IfModule>
+</IfModule>
+
+# Отключение ETag для уменьшения ненужных запросов
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# Защита от доступа к определенным файлам
+<FilesMatch "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</FilesMatch>
+
+# Блокировка доступа к .htaccess
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Правила для серверов без mod_expires
+<IfModule !mod_expires.c>
+    <IfModule mod_headers.c>
+        # Установка Cache-Control для статических ресурсов
+        <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|webp)$">
+            Header set Cache-Control "max-age=31536000, public"
+        </FilesMatch>
+        
+        # Установка Cache-Control для HTML
+        <FilesMatch "\.(html|htm)$">
+            Header set Cache-Control "max-age=86400, public"
+        </FilesMatch>
+        
+        # Предотвращение кэширования PHP файлов
+        <FilesMatch "\.(php)$">
+            Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
+            Header set Pragma "no-cache"
+        </FilesMatch>
+    </IfModule>
+</IfModule>
+
+# Установка правила для Vercel/Netlify
+<IfModule mod_headers.c>
+    # Заголовки безопасности
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
